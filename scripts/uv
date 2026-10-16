@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+PROJECT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+export XDG_CACHE_HOME="$PROJECT_ROOT/.cache"
+export UV_CACHE_DIR="$PROJECT_ROOT/.cache/uv"
+export UV_PYTHON_INSTALL_DIR="$PROJECT_ROOT/.tools/python"
+export UV_PYTHON_BIN_DIR="$PROJECT_ROOT/.tools/bin"
+export JUPYTER_CONFIG_DIR="$PROJECT_ROOT/.cache/jupyter/config"
+export JUPYTER_DATA_DIR="$PROJECT_ROOT/.cache/jupyter/data"
+export JUPYTER_RUNTIME_DIR="$PROJECT_ROOT/.cache/jupyter/runtime"
+export IPYTHONDIR="$PROJECT_ROOT/.cache/ipython"
+export MPLCONFIGDIR="$PROJECT_ROOT/.cache/matplotlib"
+cd "$PROJECT_ROOT"
+if [ ! -x "$PROJECT_ROOT/.tools/uv/bin/uv" ]; then
+    echo '먼저 ./scripts/setup.sh 를 실행하세요.' >&2
+    exit 1
+fi
+exec "$PROJECT_ROOT/.tools/uv/bin/uv" "$@"
